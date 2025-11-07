@@ -1,0 +1,252 @@
+/* PositionBoard Styles */
+
+.position-board-container {
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Header Styles */
+.position-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.btn-back:hover {
+  background-color: #e9ecef;
+}
+
+.position-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #212529;
+}
+
+/* Kanban Board Styles */
+.kanban-board {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  min-height: 500px;
+}
+
+.kanban-column {
+  min-width: 300px;
+  max-width: 300px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: calc(100vh - 200px);
+}
+
+.kanban-column-header {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kanban-column-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #495057;
+}
+
+.candidate-count {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.kanban-column-content {
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 200px;
+  transition: background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-column-content.dragging-over {
+  background-color: #e7f3ff;
+}
+
+/* Candidate Card Styles */
+.candidate-card {
+  margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: grab;
+}
+
+.candidate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.candidate-card.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+  transform: rotate(5deg);
+}
+
+.candidate-card .card-body {
+  padding: 1rem;
+}
+
+.candidate-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #212529;
+}
+
+.candidate-score {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-indicators {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.score-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #dee2e6;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.score-circle.filled {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.score-value {
+  font-size: 0.875rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* No Candidates Message */
+.no-candidates-message {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 2px dashed #dee2e6;
+}
+
+.no-candidates-message p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .position-board-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .position-title {
+    font-size: 1.5rem;
+  }
+
+  .kanban-board {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .kanban-column {
+    min-width: 100%;
+    max-width: 100%;
+    max-height: none;
+  }
+
+  .kanban-column-content {
+    max-height: 400px;
+  }
+}
+
+/* Scrollbar Styles */
+.kanban-column-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.kanban-column-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.kanban-column-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.kanban-column-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.kanban-board::-webkit-scrollbar {
+  height: 8px;
+}
+
+.kanban-board::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

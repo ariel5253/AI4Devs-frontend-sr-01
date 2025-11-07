@@ -10,6 +10,7 @@ export interface InterviewStep {
 
 export interface InterviewFlowResponse {
   positionName: string;
+  status: string;
   interviewFlow: {
     id: number;
     description: string;

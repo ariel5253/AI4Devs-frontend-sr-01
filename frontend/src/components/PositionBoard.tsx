@@ -11,6 +11,7 @@ const PositionBoard: React.FC = () => {
   const navigate = useNavigate();
   
   const [positionName, setPositionName] = useState<string>('');
+  const [positionStatus, setPositionStatus] = useState<string>('');
   const [steps, setSteps] = useState<InterviewStep[]>([]);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,6 +40,7 @@ const PositionBoard: React.FC = () => {
         ]);
 
         setPositionName(interviewFlowData.positionName);
+        setPositionStatus(interviewFlowData.status);
         
         // Ordenar los pasos por orderIndex
         const sortedSteps = [...interviewFlowData.interviewFlow.interviewSteps].sort(
@@ -67,6 +69,13 @@ const PositionBoard: React.FC = () => {
    */
   const handleDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
+
+    // Si la posición está cerrada, no permitir cambios
+    const isClosed = positionStatus?.toLowerCase() === 'closed' || positionStatus?.toLowerCase() === 'cerrado';
+    if (isClosed) {
+      setError('No se pueden realizar cambios en una posición cerrada');
+      return;
+    }
 
     // Si no hay destino o es el mismo lugar, no hacer nada
     if (!destination) return;
@@ -161,6 +170,9 @@ const PositionBoard: React.FC = () => {
     );
   }
 
+  // Verificar si la posición está cerrada
+  const isClosed = positionStatus?.toLowerCase() === 'closed' || positionStatus?.toLowerCase() === 'cerrado';
+
   return (
     <Container fluid className="position-board-container">
       {/* Header con título y botón de retorno */}
@@ -184,6 +196,17 @@ const PositionBoard: React.FC = () => {
         </Alert>
       )}
 
+      {/* Mensaje si la posición está cerrada */}
+      {isClosed && (
+        <Alert variant="info" className="mb-4">
+          <Alert.Heading>Posición Cerrada</Alert.Heading>
+          <p>
+            Esta posición está cerrada. Puedes visualizar los candidatos y su estado en el proceso,
+            pero no podrás realizar cambios en las etapas de los candidatos.
+          </p>
+        </Alert>
+      )}
+
       {/* Kanban Board */}
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="kanban-board">
@@ -195,12 +218,12 @@ const PositionBoard: React.FC = () => {
                   <h3>{step.name}</h3>
                   <span className="candidate-count">{stepCandidates.length}</span>
                 </div>
-                <Droppable droppableId={step.id.toString()}>
+                <Droppable droppableId={step.id.toString()} isDropDisabled={isClosed}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`kanban-column-content ${snapshot.isDraggingOver ? 'dragging-over' : ''}`}
+                      className={`kanban-column-content ${snapshot.isDraggingOver ? 'dragging-over' : ''} ${isClosed ? 'disabled' : ''}`}
                     >
                       {stepCandidates.length === 0 ? (
                         <>
@@ -216,13 +239,14 @@ const PositionBoard: React.FC = () => {
                               key={candidate.id}
                               draggableId={candidate.id.toString()}
                               index={index}
+                              isDragDisabled={isClosed}
                             >
                               {(provided, snapshot) => (
                                 <Card
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className={`candidate-card ${snapshot.isDragging ? 'dragging' : ''}`}
+                                  className={`candidate-card ${snapshot.isDragging ? 'dragging' : ''} ${isClosed ? 'disabled' : ''}`}
                                 >
                                   <Card.Body>
                                     <Card.Title className="candidate-name">

@@ -49,9 +49,10 @@ export const getInterviewFlowByPositionService = async (positionId: number) => {
         throw new Error('Position not found');
     }
 
-    // Formatear la respuesta para incluir el nombre de la posición y el flujo de entrevistas
+    // Formatear la respuesta para incluir el nombre de la posición, el estado y el flujo de entrevistas
     return {
         positionName: positionWithInterviewFlow.title,
+        status: positionWithInterviewFlow.status,
         interviewFlow: {
             id: positionWithInterviewFlow.interviewFlow.id,
             description: positionWithInterviewFlow.interviewFlow.description,
